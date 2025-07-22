@@ -1,0 +1,71 @@
+@use '@/shared/mixins' as *;
+@use '@/shared/colors' as *;
+
+.sidebar {
+    width: 100%;
+    max-width: 256px;
+    background: #fff;
+    box-shadow: 6px 0px 18px 0px #0000000F;
+    height: 100%;
+    position: relative;
+
+    &__header {
+        padding: 17px 24px;
+
+        border-bottom: 1px solid $divider;
+
+        &-title {
+            @include semibold-18;
+            color: $main-blue;
+        }
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 14px 0;
+    }
+
+    &__footer {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        bottom: 24px;
+        left: 0;
+        margin-top: auto;
+        padding-left: 24px;
+        transition: 0.3s all;
+        width: 100%;
+
+        color: $secondary-gray;
+        @include semibold-14;
+
+        cursor: pointer;
+
+        &:hover {
+            color: $main-blue;
+        }
+    }
+
+    &-collapsed {
+        max-width: 50px;
+        overflow: hidden;
+        padding: 0;
+
+        .sidebar__footer {
+            padding: 0;
+            left: 15px;
+            &-title {
+                display: none;
+            }
+        }
+
+        .sidebar__header {
+            padding: 17px 0;
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

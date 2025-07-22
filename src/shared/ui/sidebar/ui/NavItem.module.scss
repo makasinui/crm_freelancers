@@ -1,0 +1,39 @@
+@use '@/shared/mixins' as *;
+@use '@/shared/colors' as *;
+
+.navitem {
+    display: flex;
+    transition: 0.3s all;
+    padding: 5px 24px;
+
+    &__wrapper {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+    }
+
+    &__icon {
+        color: $secondary-icon-gray;
+    }
+
+    &__title {
+        @include medium-14;
+        color: $secondary-dark-blue;
+    }
+
+    &:hover {
+        .navitem__title {
+            transition: 0.3s all;
+            color: $main-blue;
+        }
+        .navitem__icon {
+            transition: 0.3s all;
+            color: $main-blue;
+        }
+    }
+
+    &-collapsed {
+        padding: 10px 0;
+        margin: 0 auto;
+    }
+}

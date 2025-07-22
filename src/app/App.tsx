@@ -1,4 +1,3 @@
-import './app.scss';
 import AppProvider from './providers/AppProvider';
 import AppRouter from './routes/AppRouter';
 

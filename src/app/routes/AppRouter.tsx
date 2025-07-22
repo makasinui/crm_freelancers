@@ -5,7 +5,8 @@ export default function AppRouter() {
     const routes = createBrowserRouter([
         {
             path: '/',
-            element: <Layout />
+            element: <Layout />,
+            children: []
         }
     ]);
 
