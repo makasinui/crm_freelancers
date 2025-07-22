@@ -36,4 +36,13 @@
         padding: 10px 0;
         margin: 0 auto;
     }
+
+    &__active {
+        .navitem__title {
+            color: $main-blue;
+        }
+        .navitem__icon {
+            color: $main-blue;
+        }
+    }
 }
