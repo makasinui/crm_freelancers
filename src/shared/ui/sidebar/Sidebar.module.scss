@@ -8,6 +8,7 @@
     box-shadow: 6px 0px 18px 0px #0000000F;
     height: 100%;
     position: relative;
+    transition: 0.3s linear max-width;
 
     &__header {
         padding: 17px 24px;
