@@ -1,9 +1,21 @@
 .task__list {
-
     &-wrapper {
         margin-top: 15px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
+    }
+
+    &-kanban {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 15px;
+        gap: 15px;
+    }
+
+    &-column {
+        border: 1px dashed gray;
+        border-radius: 16px;
+        padding: 5px 15px;
     }
 }
