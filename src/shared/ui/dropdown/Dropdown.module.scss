@@ -1,0 +1,125 @@
+@use '@/shared/mixins' as *;
+@use '@/shared/colors' as *;
+
+.dropdown {
+    &-wrapper {
+        width: 100%;
+        position: relative;
+        margin-bottom: 20px;
+
+        &__content {
+            position: relative;
+            width: 100%;
+        }
+    }
+
+    &-label {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 11px;
+        color: #818E9B;
+        transition: all 0.2s ease;
+        pointer-events: none;
+        z-index: 1;
+
+        &--floating {
+            top: 0;
+            transform: translateY(-50%) scale(0.9);
+            color: $main-blue;
+            margin-left: 0;
+        }
+
+        &--error {
+            color: $main-red;
+        }
+    }
+
+    & {
+        border: none;
+        border-bottom: 1px solid #D3D8DD;
+        transition: 0.3s all;
+        width: 100%;
+        background: transparent;
+        cursor: pointer;
+        position: relative;
+        text-align: left;
+        min-height: 32px;
+
+        &:hover {
+            border-color: #cbd3dbb6;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $main-blue;
+        }
+
+        &--error {
+            border-color: $main-red;
+        }
+    }
+
+    &-selected {
+        display: block;
+        padding-right: 24px;
+    }
+
+    &-arrow {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.2s;
+        pointer-events: none;
+
+        &--open {
+            transform: translateY(-50%) rotate(180deg);
+        }
+    }
+
+    &-options {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #D3D8DD;
+        border-radius: 4px;
+        background: white;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.2s ease-out;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    }
+
+    &-option {
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+
+        &:hover {
+            background: rgba($main-blue, 0.1);
+        }
+    }
+
+    &-error {
+        font-size: 8px;
+        line-height: 100%;
+        color: $main-red;
+        margin-top: 4px;
+
+        &__wrapper {
+            display: flex;
+            flex-direction: column;
+            margin-top: 5px;
+        }
+    }
+}
