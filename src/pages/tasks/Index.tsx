@@ -3,8 +3,8 @@ import { useTaskModal, useTasks, TaskModal } from "@/features/tasks";
 import { Button } from "@/shared";
 
 export default function TasksPages() {
-    const { tasks } = useTasks()
-    const { openModal, closeModal, isOpen, title, form } = useTaskModal()
+    const { tasks, dragStart, drop } = useTasks()
+    const { openModal, closeModal, isOpen, title } = useTaskModal()
 
     return (
         <main>
@@ -12,7 +12,7 @@ export default function TasksPages() {
                 Create task
             </Button>
             <TaskModal isOpen={isOpen} title={title} onClose={closeModal} />
-            <TaskList tasks={tasks} />
+            <TaskList tasks={tasks} onDragStart={dragStart} onDrop={drop} />
         </main>
     )
 }

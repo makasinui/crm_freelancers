@@ -10,9 +10,10 @@ interface TaskCardProps {
     task: Task;
     onEdit?: (task: Task) => void;
     onDelete?: (id: string) => void;
+    onDragStart?: (id: string) => void;
 }
 
-export default function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
+export default function TaskCard({ task, onEdit, onDelete, onDragStart }: TaskCardProps) {
     const handleEdit = (e: MouseEvent<SVGElement>) => {
         e.stopPropagation();
 
@@ -29,8 +30,18 @@ export default function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
         }
     };
 
+    const handleDragStart = () => {
+        if (onDragStart) {
+            onDragStart(task.id);
+        }
+    };
+
     return (
-        <section className={styles.task}>
+        <section
+            className={styles.task}
+            draggable
+            onDragStart={handleDragStart}
+        >
             <h3 className={styles.task__title}>{task.title}</h3>
             {task?.endDate && (
                 <div className={styles.task__end}>
