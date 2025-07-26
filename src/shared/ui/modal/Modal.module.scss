@@ -1,0 +1,46 @@
+@use '@/shared/mixins' as *;
+@use '@/shared/colors' as *;
+
+.modal {
+    position: fixed;
+    background: #757373d7;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 10;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-title {
+            @include semibold-18;
+        }
+
+        &-icon {
+            cursor: pointer;
+        }
+    }
+
+    &__wrapper {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        min-width: 450px;
+        border-radius: 16px;
+    }
+
+    &__content {
+        padding: 10px 0;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: center;
+    }
+}
