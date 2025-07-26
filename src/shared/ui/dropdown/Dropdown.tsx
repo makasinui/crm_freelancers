@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import z, { ZodError, type ZodSchema } from 'zod';
 import styles from './Dropdown.module.scss';
 import type { DropdownOption } from '@/shared/types';
 import { MdArrowDropDown } from 'react-icons/md';
+import { useClickOutside } from '@/shared/lib';
 
 interface DropdownProps {
     value: string | null;
@@ -16,6 +17,11 @@ interface DropdownProps {
 export default function Dropdown({ value, options, onChange, label, validationSchema, onValidationError }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState<string[] | null>(null);
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useClickOutside(dropdownRef, () => setIsOpen(false));
+
     const selectedLabel = options.find((opt) => opt.value === value)?.label || '';
 
     useEffect(() => {
@@ -37,7 +43,7 @@ export default function Dropdown({ value, options, onChange, label, validationSc
     const shouldFloat = isOpen || !!selectedLabel;
 
     return (
-        <div className={styles['dropdown-wrapper']}>
+        <div ref={dropdownRef} className={styles['dropdown-wrapper']}>
             <div
                 className={`${styles.dropdown} ${error ? styles['dropdown--error'] : ''}`}
                 onClick={() => setIsOpen(!isOpen)}
