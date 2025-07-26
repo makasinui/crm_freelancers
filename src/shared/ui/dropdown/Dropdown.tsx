@@ -5,16 +5,16 @@ import type { DropdownOption } from '@/shared/types';
 import { MdArrowDropDown } from 'react-icons/md';
 import { useClickOutside } from '@/shared/lib';
 
-interface DropdownProps {
+interface DropdownProps<T> {
     value: string | null;
     options: DropdownOption[];
     onChange: (value: string) => void;
     label: string;
-    validationSchema?: ZodSchema;
+    validationSchema?: T;
     onValidationError?: (error: string[] | null) => void;
 }
 
-export default function Dropdown({ value, options, onChange, label, validationSchema, onValidationError }: DropdownProps) {
+export default function Dropdown<T>({ value, options, onChange, label, validationSchema, onValidationError }: DropdownProps<T>) {
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState<string[] | null>(null);
 
@@ -27,7 +27,7 @@ export default function Dropdown({ value, options, onChange, label, validationSc
     useEffect(() => {
         if (validationSchema) {
             try {
-                validationSchema.parse(value);
+                (validationSchema as unknown as ZodSchema).parse(value);
                 setError(null);
                 onValidationError?.(null);
             } catch (err) {

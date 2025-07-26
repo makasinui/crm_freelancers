@@ -1,17 +1,16 @@
-import type { ZodSchema } from 'zod/v3';
 import styles from './Input.module.scss';
 import { useEffect, useRef, useState, type ChangeEvent } from 'react';
-import z, { ZodError } from 'zod';
+import z, { ZodError, type ZodSchema } from 'zod';
 
-interface InputProps {
+interface InputProps<T> {
     value: string;
     label?: string;
-    validationSchema?: ZodSchema;
+    validationSchema?: T;
     onValidationError?: (error: string[] | null) => void;
     onChange: (e: string) => void;
 }
 
-export default function Input({ value, label, validationSchema, onValidationError, onChange }: InputProps) {
+export default function Input<T>({ value, label, validationSchema, onValidationError, onChange }: InputProps<T>) {
     const [isFocused, setIsFocused] = useState(false);
     const [error, setError] = useState<string[] | null>(null);
 
@@ -32,13 +31,13 @@ export default function Input({ value, label, validationSchema, onValidationErro
     };
 
     const handleClick = () => {
-        inputRef.current?.focus()
-    }
+        inputRef.current?.focus();
+    };
 
     useEffect(() => {
         if (validationSchema) {
             try {
-                validationSchema.parse(value);
+                (validationSchema as unknown as ZodSchema).parse(value);
                 setError(null);
                 onValidationError?.(null);
             } catch (err) {
