@@ -9,14 +9,15 @@ import type { FormType } from '../../model/useTaskModal';
 
 interface TaskModalProps {
     isOpen: boolean;
-    onClose: () => void;
     title: string;
     form: FormType;
-    setForm: (val: FormType) => void;
     validationSchema: { [K in keyof FormType]: ZodString };
+    setForm: (val: FormType) => void;
+    onClose: () => void;
+    onSubmit: () => void;
 }
 
-export default function TaskModal({ isOpen, title, form, validationSchema, onClose, setForm }: TaskModalProps) {
+export default function TaskModal({ isOpen, title, form, validationSchema, onClose, onSubmit, setForm }: TaskModalProps) {
     const handleChangeForm = (value: string, key: keyof FormType) => {
         setForm({
             ...form,
@@ -29,10 +30,16 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
         value: item,
     }));
 
+    const handleSubmit = () => {
+        onSubmit();
+        onClose();
+    }
+
     return (
         <Modal
             isOpen={isOpen}
             onClose={onClose}
+            onSubmit={handleSubmit}
             title={title}
             isShowSubmit
         >
@@ -48,7 +55,6 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
                     onChange={(val) => handleChangeForm(val, 'description')}
                     label="Task description"
                     validationSchema={validationSchema['description']}
-
                 />
                 <Dropdown
                     label="Task status"

@@ -3,7 +3,7 @@ import { useTaskModal, useTasks, TaskModal } from '@/features/tasks';
 import { Button } from '@/shared';
 
 export default function TasksPages() {
-    const { tasks, dragStart, drop } = useTasks();
+    const { tasks, dragStart, drop, addTask } = useTasks();
     const { openModal, closeModal, isOpen, title, form, setForm, validationSchema } = useTaskModal();
 
     return (
@@ -14,8 +14,9 @@ export default function TasksPages() {
                 title={title}
                 form={form}
                 setForm={setForm}
-                onClose={closeModal}
                 validationSchema={validationSchema}
+                onClose={closeModal}
+                onSubmit={() => addTask(form)}
             />
             <TaskList
                 tasks={tasks}
