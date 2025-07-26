@@ -55,7 +55,7 @@ const TaskWrapperToDo = ({ tasks, onDelete, onEdit, onDragStart, onDrop }: TaskL
                 >
                     <h3>{firstCharToUpperCase(status)}</h3>
                     {getSortedTasks(status)?.map((task) => (
-                        <div key={task.id}>
+                        <div className={styles['task__list-kanban-row']} key={task.id}>
                             <TaskCard
                                 key={task.id}
                                 task={task}
