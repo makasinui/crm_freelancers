@@ -6,6 +6,7 @@ import { MdClose } from 'react-icons/md';
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
+    onSubmit?: () => void;
     title: string;
     children: ReactNode;
     isShowSubmit?: boolean;
@@ -15,12 +16,13 @@ interface ModalProps {
 
 export default function Modal({ 
     isOpen,
-    onClose,
     title,
     children,
     submitText,
     closeText,
-    isShowSubmit = false
+    isShowSubmit = false,
+    onClose,
+    onSubmit
 }: ModalProps) {
     return isOpen ? (
         <article
@@ -38,7 +40,7 @@ export default function Modal({
                 <div className={styles.modal__content}>{children}</div>
                 <footer className={styles.modal__footer}>
                     <Button type='tertiary' onClick={onClose}>{closeText ?? 'Close'}</Button>
-                    {isShowSubmit ? <Button>{submitText ?? 'Submit'}</Button> : null}
+                    {isShowSubmit ? <Button onClick={onSubmit}>{submitText ?? 'Submit'}</Button> : null}
                 </footer>
             </div>
         </article>
