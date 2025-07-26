@@ -11,7 +11,6 @@ interface TaskListProps {
 export default function TaskList({ tasks, onDelete, onEdit }: TaskListProps) {
     return (
         <div className={styles.task__list}>
-            <h2>Tasks</h2>
             <div className={styles['task__list-wrapper']}>
                 {tasks?.map((task) => (
                     <TaskCard
