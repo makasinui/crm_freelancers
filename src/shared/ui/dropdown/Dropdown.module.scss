@@ -5,7 +5,7 @@
     &-wrapper {
         width: 100%;
         position: relative;
-        margin-bottom: 20px;
+        font-size: 14px;
 
         &__content {
             position: relative;
@@ -26,7 +26,7 @@
 
         &--floating {
             top: 0;
-            transform: translateY(-50%) scale(0.9);
+            transform: translateY(-50%);
             color: $main-blue;
             margin-left: 0;
         }
@@ -45,7 +45,7 @@
         cursor: pointer;
         position: relative;
         text-align: left;
-        min-height: 32px;
+        min-height: 23px;
 
         &:hover {
             border-color: #cbd3dbb6;

@@ -21,8 +21,8 @@
 
         &--floating {
             top: 0;
-            transform: translateY(-50%) scale(0.9);
-            color: #3f51b5;
+            transform: translateY(-50%);
+            color: $main-blue;
         }
     }
 
@@ -39,6 +39,10 @@
 
         &:hover {
             border-color: #cbd3dbb6;
+        }
+
+        &:focus {
+            border-color: $main-blue;
         }
     }
 
