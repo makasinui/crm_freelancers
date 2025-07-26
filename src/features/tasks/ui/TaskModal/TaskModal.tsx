@@ -1,12 +1,12 @@
 import styles from './TaskModal.module.scss';
 
-import { TaskStatus, type Task } from '@/entities/task';
+import { TaskStatus } from '@/entities/task';
 import { Dropdown, Input, Modal } from '@/shared';
 import { firstCharToUpperCase } from '@/shared/lib';
 import type { DropdownOption } from '@/shared/types';
-import z, { ZodAny, ZodString } from 'zod';
+import { ZodString } from 'zod';
+import type { FormType } from '../../model/useTaskModal';
 
-type FormType = Omit<Task, 'id'>;
 interface TaskModalProps {
     isOpen: boolean;
     onClose: () => void;
