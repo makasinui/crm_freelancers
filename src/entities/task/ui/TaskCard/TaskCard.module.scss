@@ -3,8 +3,44 @@
 
 .task {
     display: flex;
+    flex-direction: column;
     padding: 16px;
     background: #fff;
     box-shadow: 0px 2px 10px 0px #00000014;
     border-radius: 4px;
+    transition: 0.3s all;
+    cursor: pointer;
+    position: relative;
+    height: max-content;
+
+    &__title {
+        @include medium-14;
+    }
+
+    &__end {
+        @include medium-11;
+    }
+
+    &__status {
+        display: flex;
+        justify-content: end;
+    }
+
+    &__description {
+        @include medium-12;
+    }
+
+    &__action {
+        opacity: 0;
+        right: 30px;
+        position: absolute;
+        transition: 0.3s all;
+    }
+    &:hover {
+        .task__action {
+            opacity: 100;
+            right: 15px;
+            top: 15px;
+        }
+    }
 }

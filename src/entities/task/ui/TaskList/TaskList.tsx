@@ -11,14 +11,17 @@ interface TaskListProps {
 export default function TaskList({ tasks, onDelete, onEdit }: TaskListProps) {
     return (
         <div className={styles.task__list}>
-            {tasks?.map((task) => (
-                <TaskCard
-                    key={task.id}
-                    task={task}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
-                />
-            ))}
+            <h2>Tasks</h2>
+            <div className={styles['task__list-wrapper']}>
+                {tasks?.map((task) => (
+                    <TaskCard
+                        key={task.id}
+                        task={task}
+                        onDelete={onDelete}
+                        onEdit={onEdit}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
