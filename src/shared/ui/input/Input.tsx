@@ -1,6 +1,6 @@
 import type { ZodSchema } from 'zod/v3';
 import styles from './Input.module.scss';
-import { useEffect, useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import z, { ZodError } from 'zod';
 
 interface InputProps {
@@ -15,6 +15,8 @@ export default function Input({ value, label, validationSchema, onValidationErro
     const [isFocused, setIsFocused] = useState(false);
     const [error, setError] = useState<string[] | null>(null);
 
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value);
     };
@@ -28,6 +30,10 @@ export default function Input({ value, label, validationSchema, onValidationErro
     const handleBlur = () => {
         setIsFocused(false);
     };
+
+    const handleClick = () => {
+        inputRef.current?.focus()
+    }
 
     useEffect(() => {
         if (validationSchema) {
@@ -46,10 +52,14 @@ export default function Input({ value, label, validationSchema, onValidationErro
     }, [value, validationSchema, onValidationError]);
 
     return (
-        <div className={styles['input-wrapper']}>
+        <div
+            className={styles['input-wrapper']}
+            onClick={handleClick}
+        >
             <div className={styles['input-wrapper__content']}>
                 <input
                     className={styles['input-field']}
+                    ref={inputRef}
                     value={value}
                     onChange={handleChange}
                     onFocus={handleFocus}

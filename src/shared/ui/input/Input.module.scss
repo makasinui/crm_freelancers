@@ -3,6 +3,7 @@
 
 .input {
     &-wrapper {
+        width: 100%;
         &__content {
             position: relative;
             width: 100%;
@@ -29,6 +30,7 @@
         border: none;
         border-bottom: 1px solid #D3D8DD;
         transition: 0.3s all;
+        width: 100%;
 
         &:active, &:focus {
             outline: none;
