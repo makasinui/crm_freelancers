@@ -1,5 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+@use './shared/colors' as *;
 
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
 * {
     margin: 0;
     padding: 0;
@@ -32,4 +33,20 @@ a {
         width: 100%;
 
     }
+}
+
+.bg-main-red {
+    background: $main-red;
+}
+
+.bg-main-green {
+    background: $main-green;
+}
+
+.bg-main-yellow {
+    background: $main-yellow;
+}
+
+.bg-main-blue {
+    background: $main-blue;
 }

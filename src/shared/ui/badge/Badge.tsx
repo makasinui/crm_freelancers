@@ -1,14 +1,15 @@
+import type { ColorType } from '@/shared/types';
 import styles from './Badge.module.scss';
 
 interface BadgeProps {
     status: string
-    color: 'red' | 'green' | 'yellow' | 'blue'
+    color?: ColorType
 }
 
-export default function Badge({ status, color }: BadgeProps) {
+export default function Badge({ status, color = 'blue' }: BadgeProps) {
 
     return (
-        <div className={`${styles.badge} ${styles[`badge--${color}`]}`}>
+        <div className={`${styles.badge} bg-main-${color}`}>
             {status}
         </div>
     )
