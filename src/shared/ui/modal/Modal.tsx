@@ -37,7 +37,7 @@ export default function Modal({
                 </header>
                 <div className={styles.modal__content}>{children}</div>
                 <footer className={styles.modal__footer}>
-                    <Button onClick={onClose}>{closeText ?? 'Close'}</Button>
+                    <Button type='tertiary' onClick={onClose}>{closeText ?? 'Close'}</Button>
                     {isShowSubmit ? <Button>{submitText ?? 'Submit'}</Button> : null}
                 </footer>
             </div>
