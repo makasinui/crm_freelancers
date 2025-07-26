@@ -1,0 +1,75 @@
+@use '@/shared/mixins' as *;
+@use '@/shared/colors' as *;
+
+$button-hover: #34AFF9;
+$button-active: #098EDF;
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 4px;
+    transition: 0.3s all;
+    padding: 11px 14px;
+    min-width: 100px;
+    cursor: pointer;
+
+    &--primary {
+        background: $main-blue;
+        color: #fff;
+
+        &_disabled {
+            background: $secondary-icon-gray;
+            pointer-events: none;
+        }
+
+        &:hover {
+            background: $button-hover;
+        }
+
+        &:active {
+            background: $button-active;
+        }
+    }
+
+    &--secondary {
+        background: none;
+        border: 1px solid $main-blue;
+        color: $main-blue;
+
+        &_disabled {
+            border-color: $secondary-icon-gray;
+            color: $secondary-icon-gray;
+            pointer-events: none;
+        }
+
+        &:hover {
+            border-color: $button-hover;
+            color: $button-hover;
+        }
+
+        &:active {
+            border-color: $button-active;
+            color: $button-active;
+        }
+    }
+
+    &--tertiary {
+        background: none;
+        color: $main-blue;
+        
+        &:hover {
+            color: $button-hover;
+        }
+
+        &:active {
+            color: $button-active;
+        }
+
+        &_disabled {
+            opacity: 40%;
+            pointer-events: none;
+        }
+    }
+}
