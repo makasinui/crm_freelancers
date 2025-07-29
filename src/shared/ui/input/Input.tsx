@@ -1,23 +1,34 @@
 import styles from './Input.module.scss';
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
 import z, { ZodError, type ZodSchema } from 'zod';
 
-interface InputProps<T> {
+interface InputProps<T> extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
     value: string;
+    readonly?: boolean;
     label?: string;
     validationSchema?: T;
     onValidationError?: (error: string[] | null) => void;
-    onChange: (e: string) => void;
+    onChange?: (e: string) => void;
+    onClick?: () => void;
 }
 
-export default function Input<T>({ value, label, validationSchema, onValidationError, onChange }: InputProps<T>) {
+export default function Input<T>({
+    value,
+    label,
+    validationSchema,
+    readonly,
+    onClick,
+    onValidationError,
+    onChange,
+    ...props
+}: InputProps<T>) {
     const [isFocused, setIsFocused] = useState(false);
     const [error, setError] = useState<string[] | null>(null);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        onChange(e.target.value);
+        onChange?.(e.target.value);
     };
 
     const shouldFloat = isFocused || !!value;
@@ -32,6 +43,7 @@ export default function Input<T>({ value, label, validationSchema, onValidationE
 
     const handleClick = () => {
         inputRef.current?.focus();
+        onClick?.()
     };
 
     useEffect(() => {
@@ -63,6 +75,8 @@ export default function Input<T>({ value, label, validationSchema, onValidationE
                     onChange={handleChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    readOnly={readonly}
+                    {...props}
                 />
                 {label && <span className={`${styles['input-label']} ${shouldFloat ? styles['input-label--floating'] : ''}`}>{label}</span>}
             </div>
