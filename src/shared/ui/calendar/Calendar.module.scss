@@ -1,0 +1,93 @@
+@use '@/shared/mixins' as *;
+@use '@/shared/colors' as *;
+
+.calendar {
+    max-width: 300px;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    &__headerLeft {
+        font-weight: 600;
+        color: #333;
+    }
+
+    &__headerRight {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__headerButton {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+        color: #555;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: $secondary-icon-gray;
+        }
+    }
+
+    &__daysWeek {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    &__dayWeek {
+        padding: 4px;
+        font-size: 12px;
+    }
+
+    &__daysMonth {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+        text-align: center;
+    }
+
+    &__dayMonth {
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: all 0.2s ease;
+
+        &:hover:not(&_inactive) {
+            background-color: $secondary-icon-gray;
+        }
+
+        &_current {
+            font-weight: 600;
+            color: $main-blue;
+            background-color: rgba(24, 144, 255, 0.1);
+        }
+
+        &_active {
+            background-color: $main-blue;
+            color: white;
+            font-weight: 600;
+        }
+
+        &_inactive {
+            color: #ccc;
+            cursor: default;
+        }
+    }
+}
