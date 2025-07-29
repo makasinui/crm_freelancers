@@ -2,14 +2,15 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
 import { useCalendar } from './model/useCalendar';
 import styles from './Calendar.module.scss';
-import { MdArrowLeft, MdArrowRight } from 'react-icons/md';
+import { MdArrowLeft, MdArrowRight, MdClose } from 'react-icons/md';
 
 interface CalendarProps {
-    value: Dayjs | null;
+    value?: Dayjs | null;
     onChange: (date: Dayjs) => void;
+    onClose: () => void
 }
 
-export default function Calendar({ value, onChange }: CalendarProps) {
+export default function Calendar({ value, onChange, onClose }: CalendarProps) {
     const {
         daysOfTheWeek,
         daysGrid,
@@ -21,7 +22,7 @@ export default function Calendar({ value, onChange }: CalendarProps) {
         title,
         setPrevMonth,
         setNextMonth,
-    } = useCalendar(value, onChange);
+    } = useCalendar(onChange, value);
 
     useEffect(() => {
         if (value) {
@@ -32,6 +33,9 @@ export default function Calendar({ value, onChange }: CalendarProps) {
     return (
         <div className={styles.calendar}>
             <div className={styles.calendar__header}>
+                <div className={styles.calendar__close}>
+                    <MdClose onClick={onClose} cursor={'pointer'} />
+                </div>
                 <div className={styles.calendar__headerLeft}>{title()}</div>
 
                 <div className={styles.calendar__headerRight}>

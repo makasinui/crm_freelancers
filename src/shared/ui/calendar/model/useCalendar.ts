@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 
-export const useCalendar = (value: Dayjs | null, onChange: (date: Dayjs) => void) => {
+export const useCalendar = (onChange: (date: Dayjs) => void, value?: Dayjs | null, ) => {
     const [currentDate, setCurrentDate] = useState(dayjs());
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
     const daysOfTheWeek = [...Array(7)].map(
