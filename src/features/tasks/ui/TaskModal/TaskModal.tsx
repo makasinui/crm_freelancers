@@ -1,11 +1,12 @@
 import styles from './TaskModal.module.scss';
 
 import { TaskStatus } from '@/entities/task';
-import { Dropdown, Input, Modal } from '@/shared';
+import { DatePicker, Dropdown, Input, Modal } from '@/shared';
 import { firstCharToUpperCase } from '@/shared/lib';
 import type { DropdownOption } from '@/shared/types';
 import { ZodString } from 'zod';
 import type { FormType } from '../../model/useTaskModal';
+import type { Dayjs } from 'dayjs';
 
 interface TaskModalProps {
     isOpen: boolean;
@@ -18,7 +19,7 @@ interface TaskModalProps {
 }
 
 export default function TaskModal({ isOpen, title, form, validationSchema, onClose, onSubmit, setForm }: TaskModalProps) {
-    const handleChangeForm = (value: string, key: keyof FormType) => {
+    const handleChangeForm = (value: string | Dayjs, key: keyof FormType) => {
         setForm({
             ...form,
             [key]: value,
@@ -33,7 +34,7 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
     const handleSubmit = () => {
         onSubmit();
         onClose();
-    }
+    };
 
     return (
         <Modal
@@ -55,6 +56,10 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
                     onChange={(val) => handleChangeForm(val, 'description')}
                     label="Task description"
                     validationSchema={validationSchema['description']}
+                />
+                <DatePicker
+                    value={form.endDate}
+                    onChange={(val) => handleChangeForm(val, 'endDate')}
                 />
                 <Dropdown
                     label="Task status"
