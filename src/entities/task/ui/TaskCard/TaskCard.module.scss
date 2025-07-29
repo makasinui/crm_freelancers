@@ -13,6 +13,11 @@
     position: relative;
     height: max-content;
 
+    &--dragging {
+        transition-duration: 0ms;
+        border: 2px dashed $main-blue;
+    }
+
     &__title {
         @include medium-14;
     }

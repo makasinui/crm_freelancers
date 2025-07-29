@@ -4,7 +4,7 @@ import styles from './TaskCard.module.scss';
 import { Badge } from '@/shared';
 import { getTaskStatusColor } from '../../lib/taskStatusColor';
 import { MdDelete, MdEdit } from 'react-icons/md';
-import type { MouseEvent } from 'react';
+import { useState, type MouseEvent } from 'react';
 
 interface TaskCardProps {
     task: Task;
@@ -14,6 +14,8 @@ interface TaskCardProps {
 }
 
 export default function TaskCard({ task, onEdit, onDelete, onDragStart }: TaskCardProps) {
+    const [isDragging, setIsDragging] = useState(false);
+
     const handleEdit = (e: MouseEvent<SVGElement>) => {
         e.stopPropagation();
 
@@ -31,16 +33,22 @@ export default function TaskCard({ task, onEdit, onDelete, onDragStart }: TaskCa
     };
 
     const handleDragStart = () => {
+        setIsDragging(true);
         if (onDragStart) {
             onDragStart(task.id);
         }
     };
 
+    const handleDragEnd = () => {
+        setIsDragging(false);
+    }
+
     return (
         <section
-            className={styles.task}
+            className={`${styles.task} ${isDragging ? styles['task--dragging'] : ''}`}
             draggable
             onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
         >
             <h3 className={styles.task__title}>{task.title}</h3>
             {task?.endDate && (
