@@ -1,10 +1,22 @@
-import { TaskList } from '@/entities/task';
+import { TaskList, type Task } from '@/entities/task';
 import { useTaskModal, useTasks, TaskModal } from '@/features/tasks';
 import { Button } from '@/shared';
 
 export default function TasksPages() {
-    const { tasks, dragStart, drop, addTask } = useTasks();
+    const { tasks, dragStart, drop, addTask, editTask } = useTasks();
     const { openModal, closeModal, isOpen, title, form, setForm, validationSchema } = useTaskModal();
+
+    const handleEditTask = (task: Task) => {
+        openModal('update', task);
+    }
+    
+    const handleSubmit = () => {
+        if(form?.id) {
+            editTask(form as Task);
+        } else {
+            addTask(form);
+        }
+    }
 
     return (
         <main>
@@ -16,12 +28,13 @@ export default function TasksPages() {
                 setForm={setForm}
                 validationSchema={validationSchema}
                 onClose={closeModal}
-                onSubmit={() => addTask(form)}
+                onSubmit={handleSubmit}
             />
             <TaskList
                 tasks={tasks}
                 onDragStart={dragStart}
                 onDrop={drop}
+                onEdit={handleEditTask}
             />
         </main>
     );

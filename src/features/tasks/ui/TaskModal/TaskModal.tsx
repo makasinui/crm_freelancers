@@ -4,21 +4,34 @@ import { TaskStatus } from '@/entities/task';
 import { DatePicker, Dropdown, Input, Modal } from '@/shared';
 import { firstCharToUpperCase } from '@/shared/lib';
 import type { DropdownOption } from '@/shared/types';
-import { ZodString } from 'zod';
+import z, { ZodObject } from 'zod';
 import type { FormType } from '../../model/useTaskModal';
 import type { Dayjs } from 'dayjs';
+import { useState } from 'react';
 
 interface TaskModalProps {
     isOpen: boolean;
     title: string;
     form: FormType;
-    validationSchema: { [K in keyof FormType]: ZodString };
+    validationSchema: ZodObject;
     setForm: (val: FormType) => void;
     onClose: () => void;
     onSubmit: () => void;
 }
 
+interface ErrorsType {
+    title: string[] | null;
+    description: string[] | null;
+    status: string[] | null;
+}
+
 export default function TaskModal({ isOpen, title, form, validationSchema, onClose, onSubmit, setForm }: TaskModalProps) {
+    const [errors, setErrors] = useState<ErrorsType>({
+        title: null,
+        description: null,
+        status: null,
+    });
+
     const handleChangeForm = (value: string | Dayjs, key: keyof FormType) => {
         setForm({
             ...form,
@@ -32,8 +45,31 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
     }));
 
     const handleSubmit = () => {
+        const result = validationSchema.safeParse(form);
+        if (!result.success) {
+            const { properties } = z.treeifyError(result.error);
+            
+            if (!properties) {
+                return;
+            }
+
+            setErrors({
+                title: properties?.title?.errors ?? null,
+                description: properties?.description?.errors ?? null,
+                status: properties?.status?.errors ?? null,
+            });
+            
+            return;
+        }
         onSubmit();
         onClose();
+    };
+
+    const handleSetError = (error: string[] | null, key: keyof FormType) => {
+        setErrors((err) => ({
+            ...err,
+            [key]: error,
+        }));
     };
 
     return (
@@ -44,21 +80,26 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
             title={title}
             isShowSubmit
         >
-            <section className={styles['task__modal-wrapper']}>
+            <form className={styles['task__modal-wrapper']}>
                 <Input
                     value={form.title}
                     onChange={(val) => handleChangeForm(val, 'title')}
                     label="Task title"
-                    validationSchema={validationSchema['title']}
+                    validationSchema={validationSchema.shape.title}
+                    onValidationError={(val) => handleSetError(val, 'title')}
+                    externalError={errors.title}
                 />
                 <Input
                     value={form.description as string}
                     onChange={(val) => handleChangeForm(val, 'description')}
                     label="Task description"
-                    validationSchema={validationSchema['description']}
+                    validationSchema={validationSchema.shape.description}
+                    onValidationError={(val) => handleSetError(val, 'description')}
+                    externalError={errors.description}
                 />
                 <DatePicker
                     value={form.endDate}
+                    position='top'
                     onChange={(val) => handleChangeForm(val, 'endDate')}
                 />
                 <Dropdown
@@ -66,9 +107,11 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
                     options={taskStatuses}
                     value={form.status}
                     onChange={(e) => handleChangeForm(e, 'status')}
-                    validationSchema={validationSchema['status']}
+                    validationSchema={validationSchema.shape.status}
+                    onValidationError={(val) => handleSetError(val, 'status')}
+                    externalError={errors.status}
                 />
-            </section>
+            </form>
         </Modal>
     );
 }
