@@ -7,7 +7,7 @@ import type { DragEvent } from 'react';
 interface TaskListProps {
     tasks?: Task[];
     view?: 'list' | 'todo';
-    onDelete?: (id: string) => void;
+    onDelete?: (task: Task) => void;
     onEdit?: (task: Task) => void;
     onDragStart?: (id: string) => void;
     onDrop?: (column: TaskStatus) => void;

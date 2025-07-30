@@ -1,21 +1,50 @@
 import { TaskList, type Task } from '@/entities/task';
-import { useTaskModal, useTasks, TaskModal } from '@/features/tasks';
+import { useTaskModal, useTasks, TaskModal, useTaskModalDelete } from '@/features/tasks';
+import TaskDeleteModal from '@/features/tasks/ui/TaskDeleteModal/TaskDeleteModal';
 import { Button } from '@/shared';
 
 export default function TasksPages() {
-    const { tasks, dragStart, drop, addTask, editTask } = useTasks();
-    const { openModal, closeModal, isOpen, title, form, setForm, validationSchema } = useTaskModal();
+    const { tasks, dragStart, drop, addTask, editTask, deleteTask } = useTasks();
+    const { 
+        openModal, 
+        closeModal, 
+        isOpen, 
+        title, 
+        form, 
+        setForm, 
+        validationSchema 
+    } = useTaskModal();
+
+    const { 
+        task, 
+        isOpen: isOpenDeleteModal, 
+        openModal: openDeleteModal, 
+        closeModal: closeDeleteModal 
+    } = useTaskModalDelete();
 
     const handleEditTask = (task: Task) => {
         openModal('update', task);
-    }
-    
+    };
+
     const handleSubmit = () => {
-        if(form?.id) {
+        if (form?.id) {
             editTask(form as Task);
         } else {
             addTask(form);
         }
+    };
+
+    const handleDeleteTask = (task: Task) => {
+        openDeleteModal(task);
+    }
+
+    const confirmDeleteTask = () => {
+        if(!task) {
+            return
+        }
+
+        deleteTask(task.id);
+        closeDeleteModal();
     }
 
     return (
@@ -35,6 +64,13 @@ export default function TasksPages() {
                 onDragStart={dragStart}
                 onDrop={drop}
                 onEdit={handleEditTask}
+                onDelete={handleDeleteTask}
+            />
+            <TaskDeleteModal 
+                taskTitle={task?.title} 
+                isOpen={isOpenDeleteModal}
+                onClose={closeDeleteModal}
+                onDelete={confirmDeleteTask}
             />
         </main>
     );

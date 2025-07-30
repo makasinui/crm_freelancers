@@ -9,7 +9,7 @@ import { useState, type MouseEvent } from 'react';
 interface TaskCardProps {
     task: Task;
     onEdit?: (task: Task) => void;
-    onDelete?: (id: string) => void;
+    onDelete?: (task: Task) => void;
     onDragStart?: (id: string) => void;
 }
 
@@ -28,7 +28,7 @@ export default function TaskCard({ task, onEdit, onDelete, onDragStart }: TaskCa
         e.stopPropagation();
 
         if (onDelete) {
-            onDelete(task.id);
+            onDelete(task);
         }
     };
 
