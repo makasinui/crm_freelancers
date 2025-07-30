@@ -1,12 +1,13 @@
 import styles from './Input.module.scss';
 import { useCallback, useRef, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
-import z, { ZodError, type ZodSchema } from 'zod';
+import z, { ZodError, ZodType } from 'zod';
 
 interface InputProps<T> extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
     value: string;
     readonly?: boolean;
     label?: string;
-    validationSchema?: T;
+    validationSchema?: ZodType<T>;
+    externalError?: string[] | null;
     onValidationError?: (error: string[] | null) => void;
     onChange?: (e: string) => void;
     onClick?: () => void;
@@ -17,6 +18,7 @@ export default function Input<T>({
     label,
     validationSchema,
     readonly,
+    externalError,
     onClick,
     onValidationError,
     onChange,
@@ -31,7 +33,7 @@ export default function Input<T>({
         if (!validationSchema) return;
 
         try {
-            (validationSchema as unknown as ZodSchema).parse(value);
+            validationSchema.parse(value);
             setError(null);
             onValidationError?.(null);
         } catch (err) {
@@ -63,6 +65,8 @@ export default function Input<T>({
         onClick?.();
     };
 
+    const visibleError = externalError ?? error;
+
     return (
         <div
             className={styles['input-wrapper']}
@@ -81,9 +85,9 @@ export default function Input<T>({
                 />
                 {label && <span className={`${styles['input-label']} ${shouldFloat ? styles['input-label--floating'] : ''}`}>{label}</span>}
             </div>
-            {error?.length ? (
+            {visibleError?.length ? (
                 <div className={styles['input-error__wrapper']}>
-                    {error?.map((err) => (
+                    {visibleError?.map((err) => (
                         <span
                             key={err}
                             className={styles['input-error']}

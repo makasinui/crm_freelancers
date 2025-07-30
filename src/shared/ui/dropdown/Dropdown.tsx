@@ -11,10 +11,19 @@ interface DropdownProps<T> {
     onChange: (value: string) => void;
     label: string;
     validationSchema?: T;
+    externalError?: string[] | null;
     onValidationError?: (error: string[] | null) => void;
 }
 
-export default function Dropdown<T>({ value, options, onChange, label, validationSchema, onValidationError }: DropdownProps<T>) {
+export default function Dropdown<T>({
+    value,
+    externalError,
+    options,
+    onChange,
+    label,
+    validationSchema,
+    onValidationError,
+}: DropdownProps<T>) {
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState<string[] | null>(null);
 
@@ -23,33 +32,41 @@ export default function Dropdown<T>({ value, options, onChange, label, validatio
     useClickOutside(dropdownRef, () => setIsOpen(false));
 
     const selectedLabel = options.find((opt) => opt.value === value)?.label || '';
-    
+
     const handleChange = (option: DropdownOption) => {
         onChange(option.value);
         setIsOpen(false);
         validate(option.value);
-    }
+    };
 
-     const validate = useCallback((value: string) => {
-        if (!validationSchema) return;
+    const validate = useCallback(
+        (value: string) => {
+            if (!validationSchema) return;
 
-        try {
-            (validationSchema as unknown as ZodSchema).parse(value);
-            setError(null);
-            onValidationError?.(null);
-        } catch (err) {
-            const { errors } = z.treeifyError(err as ZodError);
-            if (errors?.length) {
-                setError(errors);
-                onValidationError?.(errors);
+            try {
+                (validationSchema as unknown as ZodSchema).parse(value);
+                setError(null);
+                onValidationError?.(null);
+            } catch (err) {
+                const { errors } = z.treeifyError(err as ZodError);
+                if (errors?.length) {
+                    setError(errors);
+                    onValidationError?.(errors);
+                }
             }
-        }
-    }, [validationSchema, onValidationError]);
+        },
+        [validationSchema, onValidationError],
+    );
 
     const shouldFloat = isOpen || !!selectedLabel;
 
+    const visibleError = externalError ?? error;
+
     return (
-        <div ref={dropdownRef} className={styles['dropdown-wrapper']}>
+        <div
+            ref={dropdownRef}
+            className={styles['dropdown-wrapper']}
+        >
             <div
                 className={`${styles.dropdown} ${error ? styles['dropdown--error'] : ''}`}
                 onClick={() => setIsOpen(!isOpen)}
@@ -82,7 +99,7 @@ export default function Dropdown<T>({ value, options, onChange, label, validatio
                 </div>
             )}
 
-            {error && <div className={styles['dropdown-error']}>{error}</div>}
+            {visibleError && <div className={styles['dropdown-error']}>{visibleError.join(',')}</div>}
         </div>
     );
 }
