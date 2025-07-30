@@ -1,5 +1,5 @@
 import styles from './Input.module.scss';
-import { useEffect, useRef, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
+import { useCallback, useRef, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
 import z, { ZodError, type ZodSchema } from 'zod';
 
 interface InputProps<T> extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
@@ -27,6 +27,22 @@ export default function Input<T>({
 
     const inputRef = useRef<HTMLInputElement>(null);
 
+    const validate = useCallback((value: string) => {
+        if (!validationSchema) return;
+
+        try {
+            (validationSchema as unknown as ZodSchema).parse(value);
+            setError(null);
+            onValidationError?.(null);
+        } catch (err) {
+            const { errors } = z.treeifyError(err as ZodError);
+            if (errors?.length) {
+                setError(errors);
+                onValidationError?.(errors);
+            }
+        }
+    }, [validationSchema, onValidationError]);
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         onChange?.(e.target.value);
     };
@@ -39,28 +55,13 @@ export default function Input<T>({
 
     const handleBlur = () => {
         setIsFocused(false);
+        validate(value)
     };
 
     const handleClick = () => {
         inputRef.current?.focus();
-        onClick?.()
+        onClick?.();
     };
-
-    useEffect(() => {
-        if (validationSchema) {
-            try {
-                (validationSchema as unknown as ZodSchema).parse(value);
-                setError(null);
-                onValidationError?.(null);
-            } catch (err) {
-                const { errors } = z.treeifyError(err as ZodError);
-                if (errors?.length) {
-                    setError(errors);
-                    onValidationError?.(errors);
-                }
-            }
-        }
-    }, [value, validationSchema, onValidationError]);
 
     return (
         <div

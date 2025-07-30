@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import z, { ZodError, type ZodSchema } from 'zod';
 import styles from './Dropdown.module.scss';
 import type { DropdownOption } from '@/shared/types';
@@ -23,22 +23,28 @@ export default function Dropdown<T>({ value, options, onChange, label, validatio
     useClickOutside(dropdownRef, () => setIsOpen(false));
 
     const selectedLabel = options.find((opt) => opt.value === value)?.label || '';
+    
+    const handleChange = (option: DropdownOption) => {
+        onChange(option.value);
+        setIsOpen(false);
+        validate(option.value);
+    }
 
-    useEffect(() => {
-        if (validationSchema) {
-            try {
-                (validationSchema as unknown as ZodSchema).parse(value);
-                setError(null);
-                onValidationError?.(null);
-            } catch (err) {
-                const { errors } = z.treeifyError(err as ZodError);
-                if (errors?.length) {
-                    setError(errors);
-                    onValidationError?.(errors);
-                }
+     const validate = useCallback((value: string) => {
+        if (!validationSchema) return;
+
+        try {
+            (validationSchema as unknown as ZodSchema).parse(value);
+            setError(null);
+            onValidationError?.(null);
+        } catch (err) {
+            const { errors } = z.treeifyError(err as ZodError);
+            if (errors?.length) {
+                setError(errors);
+                onValidationError?.(errors);
             }
         }
-    }, [value, validationSchema, onValidationError]);
+    }, [validationSchema, onValidationError]);
 
     const shouldFloat = isOpen || !!selectedLabel;
 
@@ -68,10 +74,7 @@ export default function Dropdown<T>({ value, options, onChange, label, validatio
                         <div
                             key={String(option.value)}
                             className={styles['dropdown-option']}
-                            onClick={() => {
-                                onChange(option.value);
-                                setIsOpen(false);
-                            }}
+                            onClick={() => handleChange(option)}
                         >
                             {option.label}
                         </div>
