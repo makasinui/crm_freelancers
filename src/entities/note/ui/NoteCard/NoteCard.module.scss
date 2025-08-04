@@ -1,0 +1,21 @@
+.noteCard {
+    padding: 5px;
+    border-radius: 10px;
+    max-width: 10vw;
+    font-size: 12px;
+    text-align: center;
+
+    &__title {
+        font-size: 14px;
+    }
+
+    &__date {
+        font-size: 8px;
+    }
+
+    &__actions {
+        margin-left: auto;
+        cursor: pointer;
+        max-width: fit-content;
+    }
+}
