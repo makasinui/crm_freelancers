@@ -1,2 +1,2 @@
-export * from './ColorType';
-export * from './Dropdown';
+export * from './global';
+export * from './modalProps';

@@ -3,21 +3,11 @@ import styles from './TaskModal.module.scss';
 import { TaskStatus } from '@/entities/task';
 import { DatePicker, Dropdown, Input, Modal } from '@/shared';
 import { firstCharToUpperCase } from '@/shared/lib';
-import type { DropdownOption } from '@/shared/types';
-import z, { ZodObject } from 'zod';
+import type { DropdownOption, EditableModal } from '@/shared/types';
+import z from 'zod';
 import type { FormType } from '../../model/useTaskModal';
 import type { Dayjs } from 'dayjs';
 import { useState } from 'react';
-
-interface TaskModalProps {
-    isOpen: boolean;
-    title: string;
-    form: FormType;
-    validationSchema: ZodObject;
-    setForm: (val: FormType) => void;
-    onClose: () => void;
-    onSubmit: () => void;
-}
 
 interface ErrorsType {
     title: string[] | null;
@@ -25,7 +15,15 @@ interface ErrorsType {
     status: string[] | null;
 }
 
-export default function TaskModal({ isOpen, title, form, validationSchema, onClose, onSubmit, setForm }: TaskModalProps) {
+export default function TaskModal({ 
+    isOpen, 
+    title, 
+    form, 
+    validationSchema, 
+    onClose, 
+    onSubmit, 
+    setForm 
+}: EditableModal<FormType>) {
     const [errors, setErrors] = useState<ErrorsType>({
         title: null,
         description: null,
@@ -48,7 +46,7 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
         const result = validationSchema.safeParse(form);
         if (!result.success) {
             const { properties } = z.treeifyError(result.error);
-            
+
             if (!properties) {
                 return;
             }
@@ -58,7 +56,7 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
                 description: properties?.description?.errors ?? null,
                 status: properties?.status?.errors ?? null,
             });
-            
+
             return;
         }
         onSubmit();
@@ -99,7 +97,7 @@ export default function TaskModal({ isOpen, title, form, validationSchema, onClo
                 />
                 <DatePicker
                     value={form.endDate}
-                    position='top'
+                    position="top"
                     onChange={(val) => handleChangeForm(val, 'endDate')}
                 />
                 <Dropdown

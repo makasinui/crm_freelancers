@@ -1,1 +1,0 @@
-export type ColorType = 'red' | 'green' | 'yellow' | 'blue';
