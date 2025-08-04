@@ -3,17 +3,11 @@ import styles from './TaskModal.module.scss';
 import { TaskStatus } from '@/entities/task';
 import { DatePicker, Dropdown, Input, Modal } from '@/shared';
 import { firstCharToUpperCase } from '@/shared/lib';
-import type { DropdownOption, EditableModal } from '@/shared/types';
+import type { DropdownOption, EditableModal, ErrorsType } from '@/shared/types';
 import z from 'zod';
 import type { FormType } from '../../model/useTaskModal';
 import type { Dayjs } from 'dayjs';
 import { useState } from 'react';
-
-interface ErrorsType {
-    title: string[] | null;
-    description: string[] | null;
-    status: string[] | null;
-}
 
 export default function TaskModal({ 
     isOpen, 
@@ -24,7 +18,7 @@ export default function TaskModal({
     onSubmit, 
     setForm 
 }: EditableModal<FormType>) {
-    const [errors, setErrors] = useState<ErrorsType>({
+    const [errors, setErrors] = useState<ErrorsType<FormType>>({
         title: null,
         description: null,
         status: null,

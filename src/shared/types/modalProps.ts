@@ -9,3 +9,7 @@ export interface EditableModal<T> {
     onClose: () => void;
     onSubmit: () => void;
 }
+
+export type ErrorsType<T> = {
+    [K in keyof T]: string[] | null;
+}
