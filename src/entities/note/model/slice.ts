@@ -1,7 +1,75 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Note } from "./types";
+import dayjs from "dayjs";
 
-const initialState: Note[] = [];
+const initialState: Note[] = [
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+    {
+        id: '1',
+        title: 'Note #1',
+        content: 'remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... .. remember .................... ..',
+        createdAt: dayjs()
+    },
+];
 
 export const noteSlice = createSlice({
     name: 'notes',
