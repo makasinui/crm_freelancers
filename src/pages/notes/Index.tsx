@@ -1,4 +1,4 @@
-import { NoteList } from '@/entities/note';
+import { NoteList, type Note } from '@/entities/note';
 import { NoteModal, useNoteModal, useNotes } from '@/features/notes';
 import { Button } from '@/shared';
 
@@ -7,7 +7,16 @@ export default function NotesPage() {
     const { isOpen, title, form, setForm, validationSchema, openModal, closeModal } = useNoteModal();
 
     const handleSubmit = () => {
+        if(form?.id) {
+            editNote(form as Note);
+            return
+        }
+
         addNote(form);
+    }
+
+    const handleEditNote = (note: Note) => {
+        openModal('update', note);
     }
 
     return (
@@ -15,7 +24,7 @@ export default function NotesPage() {
             <Button onClick={openModal}>Add note</Button>
             <NoteList
                 notes={notes}
-                onEdit={editNote}
+                onEdit={handleEditNote}
             />
             <NoteModal
                 isOpen={isOpen}
