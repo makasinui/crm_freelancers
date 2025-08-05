@@ -6,5 +6,6 @@ import Input from './input';
 import Dropdown from './dropdown';
 import Calendar from './calendar';
 import DatePicker from './datepicker';
+import DeleteModal from './deleteModal';
 
-export { Sidebar, Badge, Button, Modal, Input, Dropdown, Calendar, DatePicker };
+export { Sidebar, Badge, Button, Modal, Input, Dropdown, Calendar, DatePicker, DeleteModal };

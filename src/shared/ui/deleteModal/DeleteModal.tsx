@@ -1,23 +1,24 @@
 import { Modal } from '@/shared';
 
-interface TaskDeleteModalProps {
-    taskTitle?: string;
+interface DeleteModalProps {
+    entityTitle?: string;
+    modalTitle: string
     isOpen: boolean;
     onClose: () => void;
     onDelete: () => void;
 }
 
-export default function TaskDeleteModal({ taskTitle, isOpen, onClose, onDelete }: TaskDeleteModalProps) {
+export default function DeleteModal({ modalTitle, entityTitle, isOpen, onClose, onDelete }: DeleteModalProps) {
     return (
         <Modal
             isOpen={isOpen}
             onClose={onClose}
             onSubmit={onDelete}
-            title="Deleting task"
+            title={`Deleting ${modalTitle}`}
             isShowSubmit
             submitText="Delete"
         >
-            Do you really want to delete task {taskTitle}?
+            Do you really want to delete {entityTitle}?
         </Modal>
     );
 }

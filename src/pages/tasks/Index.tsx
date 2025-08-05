@@ -1,7 +1,6 @@
 import { TaskList, type Task } from '@/entities/task';
 import { useTaskModal, useTasks, TaskModal, useTaskModalDelete } from '@/features/tasks';
-import TaskDeleteModal from '@/features/tasks/ui/TaskDeleteModal/TaskDeleteModal';
-import { Button } from '@/shared';
+import { Button, DeleteModal } from '@/shared';
 
 export default function TasksPages() {
     const { tasks, dragStart, drop, addTask, editTask, deleteTask } = useTasks();
@@ -66,8 +65,9 @@ export default function TasksPages() {
                 onEdit={handleEditTask}
                 onDelete={handleDeleteTask}
             />
-            <TaskDeleteModal 
-                taskTitle={task?.title} 
+            <DeleteModal 
+                entityTitle={task?.title} 
+                modalTitle='Task'
                 isOpen={isOpenDeleteModal}
                 onClose={closeDeleteModal}
                 onDelete={confirmDeleteTask}
