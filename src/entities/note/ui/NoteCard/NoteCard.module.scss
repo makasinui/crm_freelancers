@@ -2,8 +2,10 @@
     padding: 5px;
     border-radius: 10px;
     max-width: 10vw;
+    width: 100%;
     font-size: 12px;
     text-align: center;
+    position: relative;
 
     &__title {
         font-size: 14px;
@@ -14,7 +16,9 @@
     }
 
     &__actions {
-        margin-left: auto;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
         cursor: pointer;
         max-width: fit-content;
     }
