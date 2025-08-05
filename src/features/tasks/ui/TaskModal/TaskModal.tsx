@@ -2,9 +2,8 @@ import styles from './TaskModal.module.scss';
 
 import { TaskStatus } from '@/entities/task';
 import { DatePicker, Dropdown, Input, Modal } from '@/shared';
-import { firstCharToUpperCase } from '@/shared/lib';
+import { firstCharToUpperCase, useZod } from '@/shared/lib';
 import type { DropdownOption, EditableModal, ErrorsType } from '@/shared/types';
-import z from 'zod';
 import type { FormType } from '../../model/useTaskModal';
 import type { Dayjs } from 'dayjs';
 import { useState } from 'react';
@@ -24,6 +23,8 @@ export default function TaskModal({
         status: null,
     });
 
+    const { handleCheckErrors } = useZod<FormType>();
+
     const handleChangeForm = (value: string | Dayjs, key: keyof FormType) => {
         setForm({
             ...form,
@@ -38,19 +39,9 @@ export default function TaskModal({
 
     const handleSubmit = () => {
         const result = validationSchema.safeParse(form);
-        if (!result.success) {
-            const { properties } = z.treeifyError(result.error);
-
-            if (!properties) {
-                return;
-            }
-
-            setErrors({
-                title: properties?.title?.errors ?? null,
-                description: properties?.description?.errors ?? null,
-                status: properties?.status?.errors ?? null,
-            });
-
+        const err = handleCheckErrors(result);
+        if(err) {
+            setErrors(err);
             return;
         }
         onSubmit();
