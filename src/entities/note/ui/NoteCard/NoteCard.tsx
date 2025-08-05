@@ -2,6 +2,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import type { Note } from "../../model/types";
 import styles from './NoteCard.module.scss';
 import { formatDate } from "@/shared/lib";
+import { useMemo } from "react";
 
 interface NoteCardProps {
     note: Note
@@ -27,8 +28,10 @@ export default function NoteCard({ note, onDelete, onEdit }: NoteCardProps) {
         onDelete?.(note);
     }
 
+    const colorStyle = useMemo(() => getRandomColor(), []) ;
+
     return (
-        <div className={`${styles.noteCard} ${getRandomColor()}`}>
+        <div className={`${styles.noteCard} ${colorStyle}`}>
             <h3 className={styles.noteCard__title}>{note.title}</h3>
             <p className={styles.noteCard__content}>{note.content}</p>
             <span className={styles.noteCard__date}>{formatDate(note.createdAt)}</span>
